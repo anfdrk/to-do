@@ -3,11 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo</title>
+  <title>To Do</title>
   <link rel="stylesheet" href="style.css">
   <script src="main.js" defer></script>
 </head>
 <body>
-  
+  <main class="main">
+    <nav class="nav">
+      <div class="default-list">
+        <button id="inbox" class="active default-btn">
+          <img src="images/inbox.svg" alt="Icon">
+          Inbox
+        </button>
+        <button id="today" class="default-btn">
+          <img src="images/today.svg" alt="Icon">
+          Today
+        </button>
+        <button id="upcoming" class="default-btn">
+          <img src="images/calendar.svg" alt="Icon">
+          Upcoming
+        </button>
+        <button id="important" class="default-btn">
+          <img src="images/star.svg" alt="Icon">
+          Important
+        </button>
+      </div>
+      <div class="projects-list">
+        <div class="projects-title">
+          <div>
+            <img src="images/pack.svg" alt="Icon">
+            <span>Projects</span>
+          </div>
+          <button id="add-project-btn" class="add-project-btn">
+            <img src="images/add.svg" alt="Icon">
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="project-view">
+      <h1>Inbox</h1>
+    </div>
+  </main>
 </body>
 </html>
