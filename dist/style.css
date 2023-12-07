@@ -35,12 +35,12 @@ body {
   font-weight: 500;
 }
 .project-view {
-  margin: 4rem auto;
+  margin: 3rem auto;
   padding: 0 2rem;
   background-color: #ffffff;
   width: 1000px;
 }
-.default-list {
+.projects-list {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -48,8 +48,7 @@ body {
 .projects-title {
   display: flex;
   justify-content: space-between;
-  padding: 5px 10px;
-  padding-right: 0;
+  padding: 5px 0;
   gap: 10px;
 }
 .projects-title > div:first-child {
@@ -57,23 +56,35 @@ body {
   align-items: center;
   gap: 10px;
 }
-.default-btn,
-.add-project-btn {
+.add-project-btn,
+.nav-item,
+.add-task-btn {
   display: flex;
   align-items: center;
 }
-.default-btn {
+.nav-item,
+.add-task-btn {
   padding: 5px 10px;
   text-align: left;
   gap: 10px;
 }
-.default-btn:hover,
-.add-project-btn:hover {
-  background-color: #dde0e5;
-}
+.nav-item:hover,
+.add-project-btn:hover,
+.add-task-btn:hover,
 .active {
   background-color: #dde0e5;
 }
+.project-name {
+  margin-bottom: 20px;
+}
 .add-project-btn {
   padding: 5px;
+}
+.add-task-btn {
+  width: 100%;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #757575;
+  background-color: #f4f5f7;
+  padding: 10px;
 }
