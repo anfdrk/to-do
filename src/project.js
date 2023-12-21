@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default class Project {
   constructor(title) {
@@ -14,8 +14,8 @@ export default class Project {
   addTask(task) {
     this.tasks.push(task);
   }
-  
+
   removeTask(taskId) {
-    this.tasks = this.tasks.filter(task => task.id !== taskId);
+    this.tasks = this.tasks.filter((task) => task.id !== taskId);
   }
 }
