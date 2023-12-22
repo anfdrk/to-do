@@ -30,7 +30,6 @@ body {
   background-color: #f4f5f7;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -50,6 +49,7 @@ body {
   justify-content: space-between;
   padding: 5px 0;
   gap: 10px;
+  margin-top: 1.5rem;
 }
 .projects-title > div:first-child {
   display: flex;

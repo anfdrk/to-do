@@ -2,38 +2,61 @@ import storage from "./storage";
 import Project from "./project";
 import Task from "./task";
 
-function addProject(title) {
-  const newProject = new Project(title);
-  storage.projects.push(newProject);
-  storage.saveProjects();
-}
+export default {
+  projects: [],
+  activeProject: null,
 
-function addTaskToProject(projectID, title, description, dueDate) {
-  const project = storage.projects.find((p) => p.id === projectID);
-  const newTask = new Task(title, description, dueDate);
-  project.addTask(newTask);
-  storage.saveProjects();
-}
+  initTodo() {
+    this.projects = storage.getProjects();
+    const inboxExists = this.projects.some((p) => p.id === "inbox");
+    if (!inboxExists) {
+      const inbox = new Project("Inbox");
+      inbox.id = "inbox";
+      this.projects.push(inbox);
+      storage.saveProjects(this.projects);
+    }
+    this.setActiveProject("inbox");
+  },
 
-// -------------------------------------
-// ---------------- TEST ---------------
-// -------------------------------------
+  setActiveProject(projectId) {
+    this.activeProject = this.projects.find((p) => p.id === projectId);
 
-storage.initStorage();
+    // дописать логику для today и пр. ***
+  },
 
-// addProject('ye');
-// addTaskToProject('ye', 'z');
-// storage.clearStorage();
+  addProject(title) {
+    const newProject = new Project(title);
+    this.projects.push(newProject);
+    storage.saveProjects(this.projects);
+  },
 
-displayProjectsAndTasks();
+  addTaskToProject(projectId, title, description, dueDate) {
+    const project = this.projects.find((p) => p.id === projectId);
+    const newTask = new Task(projectId, title, description, dueDate);
+    project.addTask(newTask);
+    storage.saveProjects(this.projects);
+  },
 
-function displayProjectsAndTasks() {
-  console.log("Current projects:");
-  storage.projects.forEach((project, index) => {
-    console.log(`${index + 1}. ${project.title}`);
+  removeProject(projectId) {
+    this.projects = this.projects.filter((p) => p.id !== projectId);
+    storage.saveProjects(this.projects);
+  },
 
-    project.tasks.forEach((task, index) => {
-      console.log(`   ${index + 1}. ${task.title}`);
+  removeTask(projectId, taskId) {
+    const project = this.projects.find((p) => p.id === projectId);
+    project.removeTask(taskId);
+    storage.saveProjects(this.projects);
+  },
+
+  displayProjectsAndTasks() {
+    // ::: тест
+    console.log("Current projects:");
+    this.projects.forEach((project, index) => {
+      console.log(`${index + 1}. ${project.title}`);
+
+      project.tasks.forEach((task, index) => {
+        console.log(`   ${index + 1}. ${task.title}`);
+      });
     });
-  });
-}
+  },
+};
