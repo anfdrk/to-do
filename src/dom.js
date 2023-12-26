@@ -13,16 +13,156 @@ export default {
   },
 
   createProjectElement(project) {
-    const projectElement = document.createElement("button");
+    const projectTitle = this.createHtmlElement("span", null, project.title);
     const projectIcon = document.createElement("img");
-    const projectTitle = document.createElement("span");
     projectIcon.src = "images/tag.svg";
-    projectTitle.textContent = project.title;
-    projectElement.append(projectIcon, projectTitle);
-    projectElement.classList.add("nav-item");
+    const projectElement = this.createHtmlElement("button", "nav-item", [
+      projectIcon,
+      projectTitle,
+    ]);
+
     projectElement.addEventListener("click", () =>
       handlers.setActiveProject(project.id)
     );
     return projectElement;
+  },
+
+  renderTasks() {
+    const projectHeader = document.getElementById("project-name");
+    projectHeader.textContent = app.activeProject.title;
+    const tasksContainer = document.getElementById("task-list");
+    tasksContainer.innerHTML = "";
+    app.activeProject.tasks.forEach((task) => {
+      const taskElement = this.createTaskElement(task);
+      tasksContainer.appendChild(taskElement);
+    });
+  },
+
+  createTaskElement(task) {
+    const importantBtn = this.createImportantButton(task);
+    const checkboxBtn = this.createHtmlElement("button", "task-checkbox");
+    const titleParagraph = this.createHtmlElement(
+      "p",
+      "task-title",
+      task.title
+    );
+    const taskInfoContainer = this.createHtmlElement("div", "task-info", [
+      checkboxBtn,
+      titleParagraph,
+    ]);
+    const taskElement = this.createHtmlElement("div", "task", [
+      taskInfoContainer,
+      importantBtn,
+    ]);
+
+    titleParagraph.classList.toggle("completed", task.completed);
+    checkboxBtn.classList.toggle("checked", task.completed);
+
+    if (task.dueDate) {
+      const dueDateInfo = this.createHtmlElement(
+        "span",
+        "task-date",
+        task.dueDate
+      ); // ***
+      taskInfoContainer.appendChild(dueDateInfo);
+    }
+    if (task.description) {
+      const descriptionIcon = document.createElement("img");
+      descriptionIcon.src = "images/note.svg";
+      taskInfoContainer.appendChild(descriptionIcon);
+    }
+
+    checkboxBtn.addEventListener("click", () =>
+      handlers.toggleTaskComplete(task.id)
+    ); // ***
+    taskElement.addEventListener("click", () =>
+      handlers.openEditTaskModal(task.id)
+    );
+
+    return taskElement;
+  },
+
+  createImportantButton(task) {
+    const button = this.createHtmlElement("button", "important-btn");
+
+    const importantIcon = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "svg"
+    );
+    importantIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    importantIcon.setAttribute("height", "24");
+    importantIcon.setAttribute("width", "24");
+    importantIcon.classList.add("important-icon");
+
+    if (task.important) {
+      importantIcon.setAttribute("viewBox", "0 0 24 24");
+      importantIcon.setAttribute("fill", "#f92e65");
+
+      const path = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+      path.setAttribute("d", "M0 0h24v24H0z");
+      path.setAttribute("fill", "none");
+
+      const filledPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+      filledPath.setAttribute(
+        "d",
+        "M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+      );
+
+      importantIcon.append(path, filledPath);
+      button.classList.add("filled");
+    } else {
+      importantIcon.setAttribute("viewBox", "0 -960 960 960");
+      importantIcon.setAttribute("fill", "#757575");
+
+      const path = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+      path.setAttribute(
+        "d",
+        "m354-247 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-80l65-281L80-550l288-25 112-265 112 265 288 25-218 189 65 281-247-149L233-80Zm247-350Z"
+      );
+      importantIcon.appendChild(path);
+    }
+
+    button.appendChild(importantIcon);
+    button.addEventListener("click", () =>
+      handlers.toggleTaskPriority(task.id)
+    ); // ***
+    return button;
+  },
+
+  createHtmlElement(type, classes, content) {
+    const element = document.createElement(type);
+
+    if (classes) {
+      if (Array.isArray(classes)) {
+        element.classList.add(...classes);
+      } else {
+        element.classList.add(classes);
+      }
+    }
+
+    if (content) {
+      if (Array.isArray(content)) {
+        content.forEach((child) => {
+          if (child instanceof HTMLElement) {
+            element.appendChild(child);
+          }
+        });
+      } else if (content instanceof HTMLElement) {
+        element.appendChild(content);
+      } else if (typeof content === "string") {
+        element.innerHTML = content;
+      }
+    }
+
+    return element;
   },
 };

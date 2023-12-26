@@ -31,6 +31,7 @@ export default {
   },
 
   addTaskToProject(projectId, title, description, dueDate) {
+    // ::: мб ид проекта не нужен
     const project = this.projects.find((p) => p.id === projectId);
     const newTask = new Task(projectId, title, description, dueDate);
     project.addTask(newTask);
@@ -45,6 +46,11 @@ export default {
   removeTask(projectId, taskId) {
     const project = this.projects.find((p) => p.id === projectId);
     project.removeTask(taskId);
+    storage.saveProjects(this.projects);
+  },
+
+  toggleTaskPriority(taskId) {
+    this.activeProject.tasks.find((t) => t.id === taskId).togglePriority();
     storage.saveProjects(this.projects);
   },
 
