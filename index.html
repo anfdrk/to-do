@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="main.js" defer></script>
 </head>
+
 <body>
   <main class="main">
     <nav class="nav">
@@ -24,7 +26,7 @@
           Upcoming
         </button>
         <button id="important" class="nav-item">
-          <img src="images/star.svg">
+          <img src="images/star-filled.svg">
           Important
         </button>
       </div>
@@ -40,13 +42,14 @@
       <div class="projects-list" id="user-projects"></div>
     </nav>
     <div class="project-view">
-      <h1 class="project-name">Inbox</h1>
-      <div class="tasks-list"></div>
+      <h1 class="project-name" id="project-name">Inbox</h1>
+      <div id="task-list"></div>
       <button class="add-task-btn">
         <img src="images/add.svg">
-        Add task
+        <span>Add task</span>
       </button>
     </div>
   </main>
 </body>
+
 </html>
