@@ -21,7 +21,7 @@ export default {
   setActiveProject(projectId) {
     this.activeProject = this.projects.find((p) => p.id === projectId);
 
-    // дописать логику для today и пр. ***
+    // дописать логику для today и пр. :::
   },
 
   addProject(title) {
@@ -46,6 +46,11 @@ export default {
   removeTask(projectId, taskId) {
     const project = this.projects.find((p) => p.id === projectId);
     project.removeTask(taskId);
+    storage.saveProjects(this.projects);
+  },
+
+  toggleTaskComplete(taskId) {
+    this.activeProject.tasks.find((t) => t.id === taskId).toggleCompleted();
     storage.saveProjects(this.projects);
   },
 

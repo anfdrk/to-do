@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
+import { v1 as uuidv1 } from "uuid";
 
 export default class Task {
   constructor(projectId, title, description, dueDate) {
-    this.id = uuidv4();
+    this.id = uuidv1().split('-')[0];
     this.projectId = projectId;
     this.title = title;
     this.description = description;

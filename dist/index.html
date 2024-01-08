@@ -12,20 +12,20 @@
 <body>
   <main class="main">
     <nav class="nav">
-      <div class="projects-list">
-        <button id="inbox" class="active nav-item">
+      <div class="project-list">
+        <button class="nav-item" data-project-id="inbox"> 
           <img src="images/inbox.svg">
           Inbox
         </button>
-        <button id="today" class="nav-item">
+        <button class="nav-item" data-project-id="today">
           <img src="images/today.svg">
           Today
         </button>
-        <button id="upcoming" class="nav-item">
+        <button class="nav-item" data-project-id="upcoming">
           <img src="images/calendar.svg">
           Upcoming
         </button>
-        <button id="important" class="nav-item">
+        <button class="nav-item" data-project-id="important">
           <img src="images/star-filled.svg">
           Important
         </button>
@@ -39,7 +39,7 @@
           <img src="images/add.svg">
         </button>
       </div>
-      <div class="projects-list" id="user-projects"></div>
+      <div class="project-list" id="user-projects"></div>
     </nav>
     <div class="project-view">
       <h1 class="project-name" id="project-name">Inbox</h1>
@@ -50,6 +50,34 @@
       </button>
     </div>
   </main>
+
+  <div id="project-modal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title"></h3>
+      <form class="modal-form" method="post" id="project-form" name="project-form">
+        <input type="text" id="form-project-title" placeholder="Title">
+        <div>
+          <button type="button" class="modal-cancel modal-btn">Cancel</button>
+          <button type="submit" class="modal-submit modal-btn"></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div id="task-modal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title" id="modal-task-title"></h3>
+      <form class="modal-form" method="post" id="task-form" name="task-form">
+        <input type="text" id="form-task-title" placeholder="Title" name="task-title">
+        <textarea name="task-description" id="form-task-description" rows="3" placeholder="Description"></textarea>
+        <input type="date" id="form-task-date" name="task-date">
+        <div>
+          <button type="button" class="modal-cancel modal-btn">Cancel</button>
+          <button type="submit" class="modal-submit modal-btn"></button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>

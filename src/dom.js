@@ -2,6 +2,14 @@ import app from "./app";
 import handlers from "./handlers";
 
 export default {
+  initUI() {
+    this.attachSystemListClickHandler();
+    this.renderProjects();
+    this.renderTasks();
+    this.highlightActiveProject();
+    this.initModalHandlers();
+  },
+
   renderProjects() {
     const projectsContainer = document.getElementById("user-projects");
     projectsContainer.innerHTML = "";
@@ -20,6 +28,7 @@ export default {
       projectIcon,
       projectTitle,
     ]);
+    projectElement.dataset.projectId = project.id;
 
     projectElement.addEventListener("click", () =>
       handlers.setActiveProject(project.id)
@@ -62,8 +71,8 @@ export default {
       const dueDateInfo = this.createHtmlElement(
         "span",
         "task-date",
-        task.dueDate
-      ); // ***
+        task.dueDate // *** ф для преобразования формата даты
+      );
       taskInfoContainer.appendChild(dueDateInfo);
     }
     if (task.description) {
@@ -74,10 +83,10 @@ export default {
 
     checkboxBtn.addEventListener("click", () =>
       handlers.toggleTaskComplete(task.id)
-    ); // ***
-    taskElement.addEventListener("click", () =>
-      handlers.openEditTaskModal(task.id)
     );
+    taskElement.addEventListener("click", (event) => {
+      handlers.openEditTaskModal(event, task.id);
+    });
 
     return taskElement;
   },
@@ -134,7 +143,7 @@ export default {
     button.appendChild(importantIcon);
     button.addEventListener("click", () =>
       handlers.toggleTaskPriority(task.id)
-    ); // ***
+    );
     return button;
   },
 
@@ -164,5 +173,60 @@ export default {
     }
 
     return element;
+  },
+
+  highlightActiveProject() {
+    app.projects.forEach((project) => {
+      const projectItem = document.querySelector(
+        `[data-project-id="${project.id}"]`
+      );
+      if (project.id === app.activeProject.id) {
+        projectItem.classList.add("active");
+      } else {
+        projectItem.classList.remove("active");
+      }
+    });
+    // доп логика для базовых списков :::
+  },
+
+  attachSystemListClickHandler() {
+    const navItems = document.querySelectorAll(".nav-item");
+    navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        handlers.setActiveProject(item.dataset.projectId);
+      });
+    });
+  },
+
+  initModalHandlers() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        handlers.closeModals();
+      }
+    });
+
+    const modals = document.querySelectorAll('.modal');
+    document.addEventListener("click", (event) => {
+      modals.forEach(item => {
+        if (event.target === item) {
+          handlers.closeModals();
+        }
+      });
+    });
+
+    const cancelButtons = document.querySelectorAll(".modal-cancel");
+    cancelButtons.forEach((item) => {
+      item.addEventListener("click", () => {
+        handlers.closeModals();
+      });
+    });
+
+    const submitButtons = document.querySelectorAll(".modal-submit");
+    submitButtons.forEach((item) => {
+      item.addEventListener("click", () => {
+        handlers.closeModals();
+        // ::: логика для обработки данных из формы
+      });
+    });
   },
 };

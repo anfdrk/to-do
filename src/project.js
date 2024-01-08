@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from "uuid";
+import { v1 as uuidv1 } from "uuid";
 
 export default class Project {
   constructor(title) {
-    this.id = uuidv4();
+    this.id = uuidv1().split('-')[0];
     this.title = title;
     this.tasks = [];
   }
