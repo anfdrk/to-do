@@ -39,12 +39,16 @@ export default {
   renderTasks() {
     const projectHeader = document.getElementById("project-name");
     projectHeader.textContent = app.activeProject.title;
+
     const tasksContainer = document.getElementById("task-list");
     tasksContainer.innerHTML = "";
     app.activeProject.tasks.forEach((task) => {
       const taskElement = this.createTaskElement(task);
       tasksContainer.appendChild(taskElement);
     });
+
+    const addTaskBtn = document.getElementById("add-task-btn");
+    addTaskBtn.addEventListener("click", () => handlers.openAddTaskModal());
   },
 
   createTaskElement(task) {
@@ -85,7 +89,11 @@ export default {
       handlers.toggleTaskComplete(task.id)
     );
     taskElement.addEventListener("click", (event) => {
-      handlers.openEditTaskModal(event, task.id);
+      if (
+        !event.target.closest(".important-btn") &&
+        !event.target.closest(".task-checkbox")
+      )
+        handlers.openEditTaskModal(task.id);
     });
 
     return taskElement;
@@ -192,33 +200,26 @@ export default {
   attachSystemListClickHandler() {
     const navItems = document.querySelectorAll(".nav-item");
     navItems.forEach((item) => {
-      item.addEventListener("click", () => {
-        handlers.setActiveProject(item.dataset.projectId);
-      });
+      item.addEventListener("click", () =>
+        handlers.setActiveProject(item.dataset.projectId)
+      );
     });
   },
 
   initModalHandlers() {
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        handlers.closeModals();
-      }
-    });
+    document.addEventListener(
+      "keydown",
+      (event) => event.key === "Escape" && handlers.closeModals()
+    );
 
-    const modals = document.querySelectorAll('.modal');
-    document.addEventListener("click", (event) => {
-      modals.forEach(item => {
-        if (event.target === item) {
-          handlers.closeModals();
-        }
-      });
-    });
+    const modals = document.querySelectorAll(".modal");
+    document.addEventListener("click", (event) =>
+      modals.forEach((item) => event.target === item && handlers.closeModals())
+    );
 
     const cancelButtons = document.querySelectorAll(".modal-cancel");
     cancelButtons.forEach((item) => {
-      item.addEventListener("click", () => {
-        handlers.closeModals();
-      });
+      item.addEventListener("click", () => handlers.closeModals());
     });
 
     const submitButtons = document.querySelectorAll(".modal-submit");
@@ -228,5 +229,10 @@ export default {
         // ::: логика для обработки данных из формы
       });
     });
+
+    const addProjectBtn = document.getElementById("add-project-btn");
+    addProjectBtn.addEventListener("click", () =>
+      handlers.openAddProjectModal()
+    );
   },
 };
