@@ -42,9 +42,9 @@
       <div class="project-list" id="user-projects"></div>
     </nav>
     <div class="project-view">
-      <h1 class="project-name" id="project-name">Inbox</h1>
+      <h1 class="project-name" id="project-name"></h1>
       <div id="task-list"></div>
-      <button class="add-task-btn">
+      <button class="add-task-btn" id="add-task-btn">
         <img src="images/add.svg">
         <span>Add task</span>
       </button>
@@ -54,7 +54,7 @@
   <div id="project-modal" class="modal">
     <div class="modal-content">
       <h3 class="modal-title"></h3>
-      <form class="modal-form" method="post" id="project-form" name="project-form">
+      <form class="modal-form" id="project-form" name="project-form" method="post">
         <input type="text" id="form-project-title" placeholder="Title">
         <div>
           <button type="button" class="modal-cancel modal-btn">Cancel</button>
@@ -66,8 +66,8 @@
   
   <div id="task-modal" class="modal">
     <div class="modal-content">
-      <h3 class="modal-title" id="modal-task-title"></h3>
-      <form class="modal-form" method="post" id="task-form" name="task-form">
+      <h3 class="modal-title"></h3>
+      <form class="modal-form" id="task-form" name="task-form" method="post">
         <input type="text" id="form-task-title" placeholder="Title" name="task-title">
         <textarea name="task-description" id="form-task-description" rows="3" placeholder="Description"></textarea>
         <input type="date" id="form-task-date" name="task-date">
