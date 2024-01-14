@@ -35,14 +35,34 @@
           <img src="images/pack.svg">
           <span>Projects</span>
         </div>
-        <button id="add-project-btn" class="add-project-btn">
+        <button id="add-project-btn" class="icon-btn">
           <img src="images/add.svg">
         </button>
       </div>
       <div class="project-list" id="user-projects"></div>
     </nav>
+
     <div class="project-view">
-      <h1 class="project-name" id="project-name"></h1>
+      <div class="project-view-header">
+        <h1 id="project-view-title"></h1>
+        <div class="options-wrap">
+          <button id="project-options-btn" class="icon-btn">
+            <img src="images/more.svg">
+          </button>
+          <div id="project-options" class="project-options">
+            <ul>
+              <li id="edit-option">
+                <img src="images/edit.svg">
+                Rename
+              </li>
+              <li id="delete-option">
+                <img src="images/delete.svg">
+                Delete
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div id="task-list"></div>
       <button class="add-task-btn" id="add-task-btn">
         <img src="images/add.svg">
@@ -71,9 +91,13 @@
         <input type="text" id="form-task-title" placeholder="Title" name="task-title">
         <textarea name="task-description" id="form-task-description" rows="3" placeholder="Description"></textarea>
         <input type="date" id="form-task-date" name="task-date">
+        <button type="button" id="task-delete-btn" class="task-delete-btn">
+          <img src="images/delete.svg">
+          Delete
+        </button>
         <div>
           <button type="button" class="modal-cancel modal-btn">Cancel</button>
-          <button type="submit" class="modal-submit modal-btn"></button>
+          <button type="submit" class="modal-submit modal-btn" id="task-submit"></button>
         </div>
       </form>
     </div>
