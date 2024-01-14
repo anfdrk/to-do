@@ -2,6 +2,9 @@ import app from "./app";
 import dom from "./dom";
 
 export default {
+  taskFormHandler: null,
+  deleteTaskHandler: null,
+
   setActiveProject(projectId) {
     app.setActiveProject(projectId);
     dom.highlightActiveProject();
@@ -19,23 +22,62 @@ export default {
   },
 
   openEditTaskModal(taskId) {
-    this.openModal('task', 'edit');
+    dom.deleteTaskBtn.removeEventListener("click", this.deleteTaskHandler);
+    dom.taskForm.removeEventListener("submit", this.taskFormHandler);
+
     const task = app.activeProject.tasks.find((t) => t.id === taskId);
-    document.getElementById("form-task-title").value = task.title;
-    document.getElementById("form-task-description").value = task.description;
-    document.getElementById("form-task-date").textContent = task.dueDate;
+    this.openModal("task", "edit");
+    
+    dom.formTaskTitle.value = task.title;
+    if (task.description) {
+      dom.formTaskDescription.value = task.description;
+    } else {
+      dom.formTaskDescription.value = "";
+    }
+    dom.formTaskDate.textContent = task.dueDate;
+
+    dom.deleteTaskBtn.style.display = "flex";
+    this.deleteTaskHandler = () => this.deleteTask(taskId);
+    dom.deleteTaskBtn.addEventListener("click", this.deleteTaskHandler);
+
+    this.taskFormHandler = (event) => this.editTask(event, taskId);
+    dom.taskForm.addEventListener("submit", this.taskFormHandler);
+  },
+
+  editTask(event, taskId) {
+    event.preventDefault();
+    const title = dom.formTaskTitle.value;
+    const description = dom.formTaskDescription.value;
+    const dueDate = dom.formTaskDescription.value;
+    app.editTask(taskId, title, description, dueDate);
+    this.closeModals();
+    dom.renderTasks();
   },
 
   openAddTaskModal() {
-    this.openModal('task', 'add');
-    document.getElementById("form-task-title").value = "";
-    document.getElementById("form-task-description").value = "";
-    document.getElementById("form-task-date").textContent = "";
+    dom.taskForm.removeEventListener("submit", this.taskFormHandler);
+    this.openModal("task", "add");
+    dom.formTaskTitle.value = "";
+    dom.formTaskDescription.value = "";
+    dom.formTaskDate.textContent = "";
+
+    this.taskFormHandler = (event) => this.addTask(event);
+    dom.taskForm.addEventListener("submit", this.taskFormHandler);
+  },
+
+  addTask(event) {
+    event.preventDefault();
+    const title = dom.formTaskTitle.value;
+    const description = dom.formTaskDescription.value;
+    const dueDate = dom.formTaskDescription.value;
+    app.addTaskToProject(title, description, dueDate);
+    this.closeModals();
+    dom.renderTasks();
   },
 
   openAddProjectModal() {
-    this.openModal('project', 'add');
-    document.getElementById("form-project-title").value = "";
+    this.openModal("project", "add");
+    dom.formProjectTitle.value = "";
   },
 
   openModal(type, mode) {
@@ -45,7 +87,7 @@ export default {
       modal.querySelector(".modal-content").style.transform = "scale(1)";
     }, 50);
 
-    if (mode === 'add') {
+    if (mode === "add") {
       modal.querySelector(".modal-title").textContent = `Add ${type}`;
       modal.querySelector(".modal-submit").textContent = "Add";
     } else {
@@ -55,12 +97,28 @@ export default {
   },
 
   closeModals() {
-    const modals = document.querySelectorAll(".modal");
-    modals.forEach((item) => {
+    dom.modals.forEach((item) => {
       item.style.display = "none";
       setTimeout(() => {
         item.querySelector(".modal-content").style.transform = "scale(0)";
       }, 50);
     });
+
+    this.hideElement(dom.deleteTaskBtn);
+  },
+
+  toggleDropdown(element) {
+    element.style.display =
+      element.style.display === "block" ? "none" : "block";
+  },
+
+  hideElement(element) {
+    element.style.display = "none";
+  },
+
+  deleteTask(taskId) {
+    app.removeTask(taskId);
+    this.closeModals();
+    dom.renderTasks();
   },
 };

@@ -7,10 +7,6 @@ export default class Project {
     this.tasks = [];
   }
 
-  updateTitle(newTitle) {
-    this.title = newTitle;
-  }
-
   addTask(task) {
     this.tasks.push(task);
   }

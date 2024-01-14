@@ -21,7 +21,7 @@ export default {
   setActiveProject(projectId) {
     this.activeProject = this.projects.find((p) => p.id === projectId);
 
-    // дописать логику для today и пр. :::
+    // логика для today и пр. :::
   },
 
   addProject(title) {
@@ -30,11 +30,9 @@ export default {
     storage.saveProjects(this.projects);
   },
 
-  addTaskToProject(projectId, title, description, dueDate) {
-    // ::: мб ид проекта не нужен
-    const project = this.projects.find((p) => p.id === projectId);
-    const newTask = new Task(projectId, title, description, dueDate);
-    project.addTask(newTask);
+  addTaskToProject(title, description, dueDate) {
+    const newTask = new Task(this.activeProject.id, title, description, dueDate);
+    this.activeProject.addTask(newTask);
     storage.saveProjects(this.projects);
   },
 
@@ -43,9 +41,17 @@ export default {
     storage.saveProjects(this.projects);
   },
 
-  removeTask(projectId, taskId) {
-    const project = this.projects.find((p) => p.id === projectId);
-    project.removeTask(taskId);
+  removeTask(taskId) {
+    // const project = this.projects.find((p) => p.id === projectId);
+    this.activeProject.removeTask(taskId);
+    storage.saveProjects(this.projects);
+  },
+
+  editTask(taskId, title, description, dueDate) {
+    const task = this.activeProject.tasks.find((t) => t.id === taskId);
+    task.title = title;
+    task.description = description;
+    task.dueDate = dueDate;
     storage.saveProjects(this.projects);
   },
 
@@ -57,17 +63,5 @@ export default {
   toggleTaskPriority(taskId) {
     this.activeProject.tasks.find((t) => t.id === taskId).togglePriority();
     storage.saveProjects(this.projects);
-  },
-
-  displayProjectsAndTasks() {
-    // ::: тест
-    console.log("Current projects:");
-    this.projects.forEach((project, index) => {
-      console.log(`${index + 1}. ${project.title}`);
-
-      project.tasks.forEach((task, index) => {
-        console.log(`   ${index + 1}. ${task.title}`);
-      });
-    });
   },
 };

@@ -18,16 +18,4 @@ export default class Task {
   togglePriority() {
     this.important = !this.important;
   }
-
-  updateTitle(title) {
-    this.title = title;
-  }
-
-  updateDescription(description) {
-    this.description = description;
-  }
-
-  updateDueDate(dueDate) {
-    this.dueDate = dueDate;
-  }
 }

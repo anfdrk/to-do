@@ -2,21 +2,38 @@ import app from "./app";
 import handlers from "./handlers";
 
 export default {
+  formProjectTitle: document.getElementById("form-project-title"),
+  taskForm: document.getElementById("task-form"),
+  formTaskTitle: document.getElementById("form-task-title"),
+  formTaskDescription: document.getElementById("form-task-description"),
+  formTaskDate: document.getElementById("form-task-date"),
+  deleteTaskBtn: document.getElementById("task-delete-btn"),
+  modals: document.querySelectorAll(".modal"),
+  cancelButtons: document.querySelectorAll(".modal-cancel"),
+  addProjectBtn: document.getElementById("add-project-btn"),
+  dropdownBtn: document.getElementById("project-options-btn"),
+  dropdown: document.getElementById("project-options"),
+  navItems: document.querySelectorAll(".nav-item"),
+  projectViewTitle: document.getElementById("project-view-title"),
+  tasksContainer: document.getElementById("task-list"),
+  addTaskBtn: document.getElementById("add-task-btn"),
+  userProjectsContainer: document.getElementById("user-projects"),
+
   initUI() {
-    this.attachSystemListClickHandler();
+    this.initSystemListHandlers();
     this.renderProjects();
     this.renderTasks();
     this.highlightActiveProject();
     this.initModalHandlers();
+    this.initDropdownHandlers();
   },
 
   renderProjects() {
-    const projectsContainer = document.getElementById("user-projects");
-    projectsContainer.innerHTML = "";
+    this.userProjectsContainer.innerHTML = "";
     const userProjects = app.projects.filter((p) => p.id !== "inbox");
     userProjects.forEach((project) => {
       const projectElement = this.createProjectElement(project);
-      projectsContainer.appendChild(projectElement);
+      this.userProjectsContainer.appendChild(projectElement);
     });
   },
 
@@ -37,18 +54,13 @@ export default {
   },
 
   renderTasks() {
-    const projectHeader = document.getElementById("project-name");
-    projectHeader.textContent = app.activeProject.title;
-
-    const tasksContainer = document.getElementById("task-list");
-    tasksContainer.innerHTML = "";
+    this.projectViewTitle.textContent = app.activeProject.title;
+    this.tasksContainer.innerHTML = "";
     app.activeProject.tasks.forEach((task) => {
       const taskElement = this.createTaskElement(task);
-      tasksContainer.appendChild(taskElement);
+      this.tasksContainer.appendChild(taskElement);
     });
-
-    const addTaskBtn = document.getElementById("add-task-btn");
-    addTaskBtn.addEventListener("click", () => handlers.openAddTaskModal());
+    this.addTaskBtn.addEventListener("click", () => handlers.openAddTaskModal());
   },
 
   createTaskElement(task) {
@@ -75,7 +87,7 @@ export default {
       const dueDateInfo = this.createHtmlElement(
         "span",
         "task-date",
-        task.dueDate // *** ф для преобразования формата даты
+        task.dueDate // ::: ф для преобразования формата даты
       );
       taskInfoContainer.appendChild(dueDateInfo);
     }
@@ -197,9 +209,8 @@ export default {
     // доп логика для базовых списков :::
   },
 
-  attachSystemListClickHandler() {
-    const navItems = document.querySelectorAll(".nav-item");
-    navItems.forEach((item) => {
+  initSystemListHandlers() {
+    this.navItems.forEach((item) => {
       item.addEventListener("click", () =>
         handlers.setActiveProject(item.dataset.projectId)
       );
@@ -212,27 +223,36 @@ export default {
       (event) => event.key === "Escape" && handlers.closeModals()
     );
 
-    const modals = document.querySelectorAll(".modal");
     document.addEventListener("click", (event) =>
-      modals.forEach((item) => event.target === item && handlers.closeModals())
+      this.modals.forEach((item) => event.target === item && handlers.closeModals())
     );
 
-    const cancelButtons = document.querySelectorAll(".modal-cancel");
-    cancelButtons.forEach((item) => {
-      item.addEventListener("click", () => handlers.closeModals());
-    });
-
-    const submitButtons = document.querySelectorAll(".modal-submit");
-    submitButtons.forEach((item) => {
-      item.addEventListener("click", () => {
-        handlers.closeModals();
-        // ::: логика для обработки данных из формы
-      });
-    });
-
-    const addProjectBtn = document.getElementById("add-project-btn");
-    addProjectBtn.addEventListener("click", () =>
-      handlers.openAddProjectModal()
+    this.cancelButtons.forEach((item) =>
+      item.addEventListener("click", () => handlers.closeModals())
     );
+
+    this.addProjectBtn.addEventListener("click", () =>
+      handlers.openAddProjectModal());
+  },
+
+  initDropdownHandlers() {
+    this.dropdownBtn.addEventListener("click", () =>
+      handlers.toggleDropdown(this.dropdown)
+    );
+
+    document.addEventListener("click", (event) => {
+      if (
+        !this.dropdown.contains(event.target) &&
+        !event.target.closest(".options-wrap")
+      ) {
+        handlers.hideElement(this.dropdown);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        handlers.hideElement(this.dropdown);
+      }
+    });
   },
 };
