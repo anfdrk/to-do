@@ -2,6 +2,7 @@ import app from "./app";
 import handlers from "./handlers";
 
 export default {
+  projectForm: document.getElementById("project-form"),
   formProjectTitle: document.getElementById("form-project-title"),
   taskForm: document.getElementById("task-form"),
   formTaskTitle: document.getElementById("form-task-title"),
@@ -13,6 +14,8 @@ export default {
   addProjectBtn: document.getElementById("add-project-btn"),
   dropdownBtn: document.getElementById("project-options-btn"),
   dropdown: document.getElementById("project-options"),
+  deleteProjectBtn: document.getElementById("delete-option"),
+  renameProjectBtn: document.getElementById("rename-option"),
   navItems: document.querySelectorAll(".nav-item"),
   projectViewTitle: document.getElementById("project-view-title"),
   tasksContainer: document.getElementById("task-list"),
@@ -60,7 +63,9 @@ export default {
       const taskElement = this.createTaskElement(task);
       this.tasksContainer.appendChild(taskElement);
     });
-    this.addTaskBtn.addEventListener("click", () => handlers.openAddTaskModal());
+    this.addTaskBtn.addEventListener("click", () =>
+      handlers.openAddTaskModal()
+    );
   },
 
   createTaskElement(task) {
@@ -224,7 +229,9 @@ export default {
     );
 
     document.addEventListener("click", (event) =>
-      this.modals.forEach((item) => event.target === item && handlers.closeModals())
+      this.modals.forEach(
+        (item) => event.target === item && handlers.closeModals()
+      )
     );
 
     this.cancelButtons.forEach((item) =>
@@ -232,7 +239,8 @@ export default {
     );
 
     this.addProjectBtn.addEventListener("click", () =>
-      handlers.openAddProjectModal());
+      handlers.openAddProjectModal()
+    );
   },
 
   initDropdownHandlers() {
@@ -253,6 +261,15 @@ export default {
       if (event.key === "Escape") {
         handlers.hideElement(this.dropdown);
       }
+    });
+
+    this.renameProjectBtn.addEventListener("click", () => {
+      handlers.hideElement(this.dropdown);
+      handlers.openEditProjectModal();
+    });
+    this.deleteProjectBtn.addEventListener("click", () => {
+      handlers.hideElement(this.dropdown);
+      handlers.deleteProject();
     });
   },
 };

@@ -3,6 +3,7 @@ import dom from "./dom";
 
 export default {
   taskFormHandler: null,
+  projectFormHandler: null,
   deleteTaskHandler: null,
 
   setActiveProject(projectId) {
@@ -27,7 +28,7 @@ export default {
 
     const task = app.activeProject.tasks.find((t) => t.id === taskId);
     this.openModal("task", "edit");
-    
+
     dom.formTaskTitle.value = task.title;
     if (task.description) {
       dom.formTaskDescription.value = task.description;
@@ -75,9 +76,51 @@ export default {
     dom.renderTasks();
   },
 
+  deleteTask(taskId) {
+    app.removeTask(taskId);
+    this.closeModals();
+    dom.renderTasks();
+  },
+
   openAddProjectModal() {
+    dom.projectForm.removeEventListener("submit", this.projectFormHandler);
     this.openModal("project", "add");
     dom.formProjectTitle.value = "";
+    this.projectFormHandler = (event) => this.addProject(event);
+    dom.projectForm.addEventListener("submit", this.projectFormHandler);
+  },
+
+  addProject(event) {
+    event.preventDefault();
+    app.addProject(dom.formProjectTitle.value);
+    this.closeModals();
+    dom.renderProjects();
+    const newProject = app.projects[app.projects.length - 1];
+    this.setActiveProject(newProject.id);
+  },
+
+  openEditProjectModal() {
+    dom.projectForm.removeEventListener("submit", this.projectFormHandler);
+    this.openModal("project", "edit");
+    dom.formProjectTitle.value = app.activeProject.title;
+    this.projectFormHandler = (event) => this.editProject(event);
+    dom.projectForm.addEventListener("submit", this.projectFormHandler);
+  },
+
+  editProject(event) {
+    event.preventDefault();
+    app.editProject(dom.formProjectTitle.value);
+    this.closeModals();
+    dom.renderProjects();
+    dom.highlightActiveProject();
+    dom.renderTasks();
+  },
+
+  deleteProject() {
+    app.removeProject();
+    dom.renderProjects();
+    dom.highlightActiveProject();
+    dom.renderTasks();
   },
 
   openModal(type, mode) {
@@ -114,11 +157,5 @@ export default {
 
   hideElement(element) {
     element.style.display = "none";
-  },
-
-  deleteTask(taskId) {
-    app.removeTask(taskId);
-    this.closeModals();
-    dom.renderTasks();
   },
 };

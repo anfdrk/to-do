@@ -31,18 +31,24 @@ export default {
   },
 
   addTaskToProject(title, description, dueDate) {
-    const newTask = new Task(this.activeProject.id, title, description, dueDate);
+    const newTask = new Task(
+      this.activeProject.id,
+      title,
+      description,
+      dueDate
+    );
     this.activeProject.addTask(newTask);
     storage.saveProjects(this.projects);
   },
 
-  removeProject(projectId) {
-    this.projects = this.projects.filter((p) => p.id !== projectId);
+  removeProject() {
+    const projectIndex = this.projects.indexOf(this.activeProject);
+    this.projects.splice(projectIndex, 1);
+    this.activeProject = this.projects[projectIndex - 1];
     storage.saveProjects(this.projects);
   },
 
   removeTask(taskId) {
-    // const project = this.projects.find((p) => p.id === projectId);
     this.activeProject.removeTask(taskId);
     storage.saveProjects(this.projects);
   },
@@ -52,6 +58,11 @@ export default {
     task.title = title;
     task.description = description;
     task.dueDate = dueDate;
+    storage.saveProjects(this.projects);
+  },
+
+  editProject(title) {
+    this.activeProject.title = title;
     storage.saveProjects(this.projects);
   },
 
