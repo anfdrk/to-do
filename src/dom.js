@@ -1,5 +1,6 @@
 import app from "./app";
 import handlers from "./handlers";
+import { format } from "date-fns";
 
 export default {
   projectForm: document.getElementById("project-form"),
@@ -89,11 +90,8 @@ export default {
     checkboxBtn.classList.toggle("checked", task.completed);
 
     if (task.dueDate) {
-      const dueDateInfo = this.createHtmlElement(
-        "span",
-        "task-date",
-        task.dueDate // ::: ф для преобразования формата даты
-      );
+      const dateAbbr = format(new Date(task.dueDate), "MMM d");
+      const dueDateInfo = this.createHtmlElement("span", "task-date", dateAbbr);
       taskInfoContainer.appendChild(dueDateInfo);
     }
     if (task.description) {
@@ -240,6 +238,10 @@ export default {
 
     this.addProjectBtn.addEventListener("click", () =>
       handlers.openAddProjectModal()
+    );
+
+    this.formTaskDate.addEventListener("blur", () =>
+      handlers.changeDateFormColor()
     );
   },
 

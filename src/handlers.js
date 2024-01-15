@@ -25,31 +25,29 @@ export default {
   openEditTaskModal(taskId) {
     dom.deleteTaskBtn.removeEventListener("click", this.deleteTaskHandler);
     dom.taskForm.removeEventListener("submit", this.taskFormHandler);
-
     const task = app.activeProject.tasks.find((t) => t.id === taskId);
     this.openModal("task", "edit");
-
     dom.formTaskTitle.value = task.title;
-    if (task.description) {
-      dom.formTaskDescription.value = task.description;
+    dom.formTaskDescription.value = task.description;
+    dom.formTaskDate.value = task.dueDate;
+    if (task.dueDate) {
+      dom.formTaskDate.classList.add("date-specified");
     } else {
-      dom.formTaskDescription.value = "";
+      dom.formTaskDate.classList.remove("date-specified");
     }
-    dom.formTaskDate.textContent = task.dueDate;
-
     dom.deleteTaskBtn.style.display = "flex";
     this.deleteTaskHandler = () => this.deleteTask(taskId);
     dom.deleteTaskBtn.addEventListener("click", this.deleteTaskHandler);
-
     this.taskFormHandler = (event) => this.editTask(event, taskId);
     dom.taskForm.addEventListener("submit", this.taskFormHandler);
+    dom.formTaskTitle.focus();
   },
 
   editTask(event, taskId) {
     event.preventDefault();
     const title = dom.formTaskTitle.value;
-    const description = dom.formTaskDescription.value;
-    const dueDate = dom.formTaskDescription.value;
+    const description = dom.formTaskDescription.value.trim();
+    const dueDate = dom.formTaskDate.value;
     app.editTask(taskId, title, description, dueDate);
     this.closeModals();
     dom.renderTasks();
@@ -60,17 +58,19 @@ export default {
     this.openModal("task", "add");
     dom.formTaskTitle.value = "";
     dom.formTaskDescription.value = "";
-    dom.formTaskDate.textContent = "";
+    dom.formTaskDate.value = "";
+    dom.formTaskDate.classList.remove("date-specified");
 
     this.taskFormHandler = (event) => this.addTask(event);
     dom.taskForm.addEventListener("submit", this.taskFormHandler);
+    dom.formTaskTitle.focus();
   },
 
   addTask(event) {
     event.preventDefault();
     const title = dom.formTaskTitle.value;
-    const description = dom.formTaskDescription.value;
-    const dueDate = dom.formTaskDescription.value;
+    const description = dom.formTaskDescription.value.trim();
+    const dueDate = dom.formTaskDate.value;
     app.addTaskToProject(title, description, dueDate);
     this.closeModals();
     dom.renderTasks();
@@ -82,12 +82,21 @@ export default {
     dom.renderTasks();
   },
 
+  changeDateFormColor() {
+    if (dom.formTaskDate.value) {
+      dom.formTaskDate.classList.add("date-specified");
+    } else {
+      dom.formTaskDate.classList.remove("date-specified");
+    }
+  },
+
   openAddProjectModal() {
     dom.projectForm.removeEventListener("submit", this.projectFormHandler);
     this.openModal("project", "add");
     dom.formProjectTitle.value = "";
     this.projectFormHandler = (event) => this.addProject(event);
     dom.projectForm.addEventListener("submit", this.projectFormHandler);
+    dom.formProjectTitle.focus();
   },
 
   addProject(event) {
@@ -105,6 +114,7 @@ export default {
     dom.formProjectTitle.value = app.activeProject.title;
     this.projectFormHandler = (event) => this.editProject(event);
     dom.projectForm.addEventListener("submit", this.projectFormHandler);
+    dom.formProjectTitle.focus();
   },
 
   editProject(event) {
