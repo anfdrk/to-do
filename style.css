@@ -202,6 +202,17 @@ textarea:focus {
   outline: #87bffc 4px solid;
   outline-offset: -2px;
 }
+input::placeholder,
+textarea::placeholder,
+.date-input {
+  color: #b2b4b9;
+}
+.date-input:focus {
+  color: inherit;
+}
+.date-specified {
+  color: inherit;
+}
 .modal-form div {
   align-self: flex-end;
   padding-top: 10px;
