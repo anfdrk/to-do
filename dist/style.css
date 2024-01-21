@@ -78,7 +78,7 @@ body {
 .active {
   background-color: #dde0e5;
 }
-.project-view-header{
+.project-view-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -233,7 +233,7 @@ textarea::placeholder,
   margin-left: 10px;
   background-color: #449dfc;
 }
-.options-wrap{
+.options-wrap {
   position: relative;
 }
 .project-options {
@@ -268,7 +268,7 @@ textarea::placeholder,
 .project-options li:hover {
   background-color: #dde0e5;
 }
-#delete-option{
+#delete-option {
   color: #e54e1e;
 }
 .task-delete-btn {

@@ -203,13 +203,18 @@ export default {
       const projectItem = document.querySelector(
         `[data-project-id="${project.id}"]`
       );
-      if (project.id === app.activeProject.id) {
-        projectItem.classList.add("active");
-      } else {
-        projectItem.classList.remove("active");
-      }
+      projectItem.classList.toggle(
+        "active",
+        project.id === app.activeProject.id
+      );
     });
-    // доп логика для базовых списков :::
+
+    this.navItems.forEach((item) => {
+      item.classList.toggle(
+        "active",
+        item.dataset.projectId === app.activeProject.id
+      );
+    });
   },
 
   initSystemListHandlers() {

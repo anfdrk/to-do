@@ -19,6 +19,7 @@ export default {
 
   toggleTaskPriority(taskId) {
     app.toggleTaskPriority(taskId);
+    app.setActiveProject(app.activeProject.id);
     dom.renderTasks();
   },
 
@@ -50,6 +51,7 @@ export default {
     const dueDate = dom.formTaskDate.value;
     app.editTask(taskId, title, description, dueDate);
     this.closeModals();
+    app.setActiveProject(app.activeProject.id);
     dom.renderTasks();
   },
 

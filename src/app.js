@@ -1,6 +1,7 @@
 import storage from "./storage";
 import Project from "./project";
 import Task from "./task";
+import { isToday, addDays, isAfter, isBefore, compareAsc } from "date-fns";
 
 export default {
   projects: [],
@@ -19,9 +20,15 @@ export default {
   },
 
   setActiveProject(projectId) {
-    this.activeProject = this.projects.find((p) => p.id === projectId);
+    const sortFunctions = {
+      today: () => this.getTodayTasks(),
+      upcoming: () => this.getUpcomingTasks(),
+      important: () => this.getImportantTasks(),
+    };
 
-    // логика для today и пр. :::
+    this.activeProject = sortFunctions[projectId]
+      ? sortFunctions[projectId]()
+      : this.projects.find((p) => p.id === projectId);
   },
 
   addProject(title) {
@@ -74,5 +81,46 @@ export default {
   toggleTaskPriority(taskId) {
     this.activeProject.tasks.find((t) => t.id === taskId).togglePriority();
     storage.saveProjects(this.projects);
+  },
+
+  getTodayTasks() {
+    const allTasks = this.projects.flatMap((project) => project.tasks);
+
+    return {
+      id: "today",
+      title: "Today",
+      tasks: allTasks.filter((task) => isToday(new Date(task.dueDate))),
+    };
+  },
+
+  getUpcomingTasks() {
+    const allTasks = this.projects.flatMap((project) => project.tasks);
+    const next10DaysTasks = allTasks.filter((task) => {
+      const taskDueDate = new Date(task.dueDate);
+      const tenDaysLater = addDays(new Date(), 10);
+      return (
+        isAfter(taskDueDate, new Date()) && isBefore(taskDueDate, tenDaysLater)
+      );
+    });
+
+    return {
+      id: "upcoming",
+      title: "Upcoming",
+      tasks: next10DaysTasks.sort((a, b) => {
+        const dateA = new Date(a.dueDate);
+        const dateB = new Date(b.dueDate);
+        return compareAsc(dateA, dateB);
+      }),
+    };
+  },
+
+  getImportantTasks() {
+    const allTasks = this.projects.flatMap((project) => project.tasks);
+
+    return {
+      id: "important",
+      title: "Important",
+      tasks: allTasks.filter((task) => task.important),
+    };
   },
 };
