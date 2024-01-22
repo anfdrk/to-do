@@ -10,6 +10,17 @@ export default {
     app.setActiveProject(projectId);
     dom.highlightActiveProject();
     dom.renderTasks();
+    this.toggleAddTaskAndDropdown();
+  },
+
+  toggleAddTaskAndDropdown() {
+    const isSystemList = ["today", "upcoming", "important"].includes(
+      app.activeProject.id
+    );
+    const isInbox = app.activeProject.id === "inbox";
+
+    dom.addTaskBtn.style.display = isSystemList ? "none" : "flex";
+    dom.dropdownBtn.style.display = isSystemList || isInbox ? "none" : "flex";
   },
 
   toggleTaskComplete(taskId) {
