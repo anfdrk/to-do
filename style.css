@@ -271,6 +271,9 @@ textarea::placeholder,
 #delete-option {
   color: #e54e1e;
 }
+#project-options-btn {
+  display: none;
+}
 .task-delete-btn {
   display: none;
   gap: 10px;
