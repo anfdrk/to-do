@@ -89,6 +89,15 @@ export default {
     titleParagraph.classList.toggle("completed", task.completed);
     checkboxBtn.classList.toggle("checked", task.completed);
 
+    if (["today", "upcoming", "important"].includes(app.activeProject.id)) {
+      const taskProjectTitle = app.getProjectTitle(task.projectId);
+      const taskProjectInfo = this.createHtmlElement(
+        "span",
+        "task-project-title",
+        taskProjectTitle
+      );
+      taskInfoContainer.appendChild(taskProjectInfo);
+    }
     if (task.dueDate) {
       const dateAbbr = format(new Date(task.dueDate), "MMM d");
       const dueDateInfo = this.createHtmlElement("span", "task-date", dateAbbr);

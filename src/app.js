@@ -83,6 +83,10 @@ export default {
     storage.saveProjects(this.projects);
   },
 
+  getProjectTitle(projectId) {
+    return this.projects.find((p) => p.id === projectId).title;
+  },
+
   getTodayTasks() {
     const allTasks = this.projects.flatMap((project) => project.tasks);
 
