@@ -34,7 +34,7 @@ export default {
     dom.renderTasks();
   },
 
-  openEditTaskModal(taskId) {
+  openEditTaskModal(taskId, projectId) {
     dom.deleteTaskBtn.removeEventListener("click", this.deleteTaskHandler);
     dom.taskForm.removeEventListener("submit", this.taskFormHandler);
     const task = app.activeProject.tasks.find((t) => t.id === taskId);
@@ -48,7 +48,7 @@ export default {
       dom.formTaskDate.classList.remove("date-specified");
     }
     dom.deleteTaskBtn.style.display = "flex";
-    this.deleteTaskHandler = () => this.deleteTask(taskId);
+    this.deleteTaskHandler = () => this.deleteTask(taskId, projectId);
     dom.deleteTaskBtn.addEventListener("click", this.deleteTaskHandler);
     this.taskFormHandler = (event) => this.editTask(event, taskId);
     dom.taskForm.addEventListener("submit", this.taskFormHandler);
@@ -89,9 +89,10 @@ export default {
     dom.renderTasks();
   },
 
-  deleteTask(taskId) {
-    app.removeTask(taskId);
+  deleteTask(taskId, projectId) {
+    app.removeTask(taskId, projectId);
     this.closeModals();
+    app.setActiveProject(app.activeProject.id);
     dom.renderTasks();
   },
 

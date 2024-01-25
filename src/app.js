@@ -1,7 +1,42 @@
 import storage from "./storage";
-import Project from "./project";
-import Task from "./task";
+import { v1 as uuidv1 } from "uuid";
 import { isToday, addDays, isAfter, isBefore, compareAsc } from "date-fns";
+
+export class Project {
+  constructor(title) {
+    this.id = uuidv1().split("-")[0];
+    this.title = title;
+    this.tasks = [];
+  }
+
+  addTask(task) {
+    this.tasks.push(task);
+  }
+
+  removeTask(taskId) {
+    this.tasks = this.tasks.filter((task) => task.id !== taskId);
+  }
+}
+
+export class Task {
+  constructor(projectId, title, description, dueDate) {
+    this.id = uuidv1().split('-')[0];
+    this.projectId = projectId;
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.important = false;
+    this.completed = false;
+  }
+
+  toggleCompleted() {
+    this.completed = !this.completed;
+  }
+
+  togglePriority() {
+    this.important = !this.important;
+  }
+}
 
 export default {
   projects: [],
@@ -55,8 +90,8 @@ export default {
     storage.saveProjects(this.projects);
   },
 
-  removeTask(taskId) {
-    this.activeProject.removeTask(taskId);
+  removeTask(taskId, projectId) {
+    this.projects.find(p => p.id === projectId).removeTask(taskId);
     storage.saveProjects(this.projects);
   },
 

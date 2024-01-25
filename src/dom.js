@@ -117,7 +117,7 @@ export default {
         !event.target.closest(".important-btn") &&
         !event.target.closest(".task-checkbox")
       )
-        handlers.openEditTaskModal(task.id);
+        handlers.openEditTaskModal(task.id, task.projectId);
     });
 
     return taskElement;

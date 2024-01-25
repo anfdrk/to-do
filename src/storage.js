@@ -1,5 +1,4 @@
-import Project from "./project";
-import Task from "./task";
+import { Task, Project } from "./app";
 
 export default {
   getProjects() {
