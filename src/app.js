@@ -1,10 +1,10 @@
-import storage from "./storage";
-import { v1 as uuidv1 } from "uuid";
-import { isToday, addDays, isAfter, isBefore, compareAsc } from "date-fns";
+import { v1 as uuidv1 } from 'uuid';
+import { isToday, addDays, isAfter, isBefore, compareAsc } from 'date-fns';
+import storage from './storage';
 
 export class Project {
   constructor(title) {
-    this.id = uuidv1().split("-")[0];
+    this.id = uuidv1().split('-')[0];
     this.title = title;
     this.tasks = [];
   }
@@ -44,14 +44,14 @@ export default {
 
   initTodo() {
     this.projects = storage.getProjects();
-    const inboxExists = this.projects.some((p) => p.id === "inbox");
+    const inboxExists = this.projects.some((p) => p.id === 'inbox');
     if (!inboxExists) {
-      const inbox = new Project("Inbox");
-      inbox.id = "inbox";
+      const inbox = new Project('Inbox');
+      inbox.id = 'inbox';
       this.projects.push(inbox);
       storage.saveProjects(this.projects);
     }
-    this.setActiveProject("inbox");
+    this.setActiveProject('inbox');
   },
 
   setActiveProject(projectId) {
@@ -77,7 +77,7 @@ export default {
       this.activeProject.id,
       title,
       description,
-      dueDate
+      dueDate,
     );
     this.activeProject.addTask(newTask);
     storage.saveProjects(this.projects);
@@ -91,7 +91,7 @@ export default {
   },
 
   removeTask(taskId, projectId) {
-    this.projects.find(p => p.id === projectId).removeTask(taskId);
+    this.projects.find((p) => p.id === projectId).removeTask(taskId);
     storage.saveProjects(this.projects);
   },
 
@@ -126,8 +126,8 @@ export default {
     const allTasks = this.projects.flatMap((project) => project.tasks);
 
     return {
-      id: "today",
-      title: "Today",
+      id: 'today',
+      title: 'Today',
       tasks: allTasks.filter((task) => isToday(new Date(task.dueDate))),
     };
   },
@@ -143,8 +143,8 @@ export default {
     });
 
     return {
-      id: "upcoming",
-      title: "Upcoming",
+      id: 'upcoming',
+      title: 'Upcoming',
       tasks: next10DaysTasks.sort((a, b) => {
         const dateA = new Date(a.dueDate);
         const dateB = new Date(b.dueDate);
@@ -157,8 +157,8 @@ export default {
     const allTasks = this.projects.flatMap((project) => project.tasks);
 
     return {
-      id: "important",
-      title: "Important",
+      id: 'important',
+      title: 'Important',
       tasks: allTasks.filter((task) => task.important),
     };
   },

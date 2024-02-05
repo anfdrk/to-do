@@ -1,4 +1,4 @@
-import { Task, Project } from "./app";
+import { Task, Project } from './app';
 
 export default {
   getProjects() {
@@ -20,7 +20,7 @@ export default {
       taskData.projectId,
       taskData.title,
       taskData.description,
-      taskData.dueDate
+      taskData.dueDate,
     );
     task.id = taskData.id;
     task.important = taskData.important;
@@ -29,11 +29,11 @@ export default {
   },
 
   loadProjects() {
-    const projectsData = localStorage.getItem("projects");
+    const projectsData = localStorage.getItem('projects');
     return projectsData ? JSON.parse(projectsData) : [];
   },
 
   saveProjects(projects) {
-    localStorage.setItem("projects", JSON.stringify(projects));
+    localStorage.setItem('projects', JSON.stringify(projects));
   },
 };

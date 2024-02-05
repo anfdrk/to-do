@@ -1,5 +1,5 @@
-import app from "./app";
-import dom from "./dom";
+import app from './app';
+import dom from './dom';
 
 export default {
   taskFormHandler: null,
@@ -14,13 +14,13 @@ export default {
   },
 
   toggleAddTaskAndDropdown() {
-    const isSystemList = ["today", "upcoming", "important"].includes(
-      app.activeProject.id
+    const isSystemList = ['today', 'upcoming', 'important'].includes(
+      app.activeProject.id,
     );
-    const isInbox = app.activeProject.id === "inbox";
+    const isInbox = app.activeProject.id === 'inbox';
 
-    dom.addTaskBtn.style.display = isSystemList ? "none" : "flex";
-    dom.dropdownBtn.style.display = isSystemList || isInbox ? "none" : "flex";
+    dom.addTaskBtn.style.display = isSystemList ? 'none' : 'flex';
+    dom.dropdownBtn.style.display = isSystemList || isInbox ? 'none' : 'flex';
   },
 
   toggleTaskComplete(taskId) {
@@ -35,23 +35,23 @@ export default {
   },
 
   openEditTaskModal(taskId, projectId) {
-    dom.deleteTaskBtn.removeEventListener("click", this.deleteTaskHandler);
-    dom.taskForm.removeEventListener("submit", this.taskFormHandler);
+    dom.deleteTaskBtn.removeEventListener('click', this.deleteTaskHandler);
+    dom.taskForm.removeEventListener('submit', this.taskFormHandler);
     const task = app.activeProject.tasks.find((t) => t.id === taskId);
-    this.openModal("task", "edit");
+    this.openModal('task', 'edit');
     dom.formTaskTitle.value = task.title;
     dom.formTaskDescription.value = task.description;
     dom.formTaskDate.value = task.dueDate;
     if (task.dueDate) {
-      dom.formTaskDate.classList.add("date-specified");
+      dom.formTaskDate.classList.add('date-specified');
     } else {
-      dom.formTaskDate.classList.remove("date-specified");
+      dom.formTaskDate.classList.remove('date-specified');
     }
-    dom.deleteTaskBtn.style.display = "flex";
+    dom.deleteTaskBtn.style.display = 'flex';
     this.deleteTaskHandler = () => this.deleteTask(taskId, projectId);
-    dom.deleteTaskBtn.addEventListener("click", this.deleteTaskHandler);
+    dom.deleteTaskBtn.addEventListener('click', this.deleteTaskHandler);
     this.taskFormHandler = (event) => this.editTask(event, taskId);
-    dom.taskForm.addEventListener("submit", this.taskFormHandler);
+    dom.taskForm.addEventListener('submit', this.taskFormHandler);
     dom.formTaskTitle.focus();
   },
 
@@ -67,15 +67,15 @@ export default {
   },
 
   openAddTaskModal() {
-    dom.taskForm.removeEventListener("submit", this.taskFormHandler);
-    this.openModal("task", "add");
-    dom.formTaskTitle.value = "";
-    dom.formTaskDescription.value = "";
-    dom.formTaskDate.value = "";
-    dom.formTaskDate.classList.remove("date-specified");
+    dom.taskForm.removeEventListener('submit', this.taskFormHandler);
+    this.openModal('task', 'add');
+    dom.formTaskTitle.value = '';
+    dom.formTaskDescription.value = '';
+    dom.formTaskDate.value = '';
+    dom.formTaskDate.classList.remove('date-specified');
 
     this.taskFormHandler = (event) => this.addTask(event);
-    dom.taskForm.addEventListener("submit", this.taskFormHandler);
+    dom.taskForm.addEventListener('submit', this.taskFormHandler);
     dom.formTaskTitle.focus();
   },
 
@@ -98,18 +98,18 @@ export default {
 
   changeDateFormColor() {
     if (dom.formTaskDate.value) {
-      dom.formTaskDate.classList.add("date-specified");
+      dom.formTaskDate.classList.add('date-specified');
     } else {
-      dom.formTaskDate.classList.remove("date-specified");
+      dom.formTaskDate.classList.remove('date-specified');
     }
   },
 
   openAddProjectModal() {
-    dom.projectForm.removeEventListener("submit", this.projectFormHandler);
-    this.openModal("project", "add");
-    dom.formProjectTitle.value = "";
+    dom.projectForm.removeEventListener('submit', this.projectFormHandler);
+    this.openModal('project', 'add');
+    dom.formProjectTitle.value = '';
     this.projectFormHandler = (event) => this.addProject(event);
-    dom.projectForm.addEventListener("submit", this.projectFormHandler);
+    dom.projectForm.addEventListener('submit', this.projectFormHandler);
     dom.formProjectTitle.focus();
   },
 
@@ -123,11 +123,11 @@ export default {
   },
 
   openEditProjectModal() {
-    dom.projectForm.removeEventListener("submit", this.projectFormHandler);
-    this.openModal("project", "edit");
+    dom.projectForm.removeEventListener('submit', this.projectFormHandler);
+    this.openModal('project', 'edit');
     dom.formProjectTitle.value = app.activeProject.title;
     this.projectFormHandler = (event) => this.editProject(event);
-    dom.projectForm.addEventListener("submit", this.projectFormHandler);
+    dom.projectForm.addEventListener('submit', this.projectFormHandler);
     dom.formProjectTitle.focus();
   },
 
@@ -149,25 +149,25 @@ export default {
 
   openModal(type, mode) {
     const modal = document.getElementById(`${type}-modal`);
-    modal.style.display = "flex";
+    modal.style.display = 'flex';
     setTimeout(() => {
-      modal.querySelector(".modal-content").style.transform = "scale(1)";
+      modal.querySelector('.modal-content').style.transform = 'scale(1)';
     }, 50);
 
-    if (mode === "add") {
-      modal.querySelector(".modal-title").textContent = `Add ${type}`;
-      modal.querySelector(".modal-submit").textContent = "Add";
+    if (mode === 'add') {
+      modal.querySelector('.modal-title').textContent = `Add ${type}`;
+      modal.querySelector('.modal-submit').textContent = 'Add';
     } else {
-      modal.querySelector(".modal-title").textContent = `Edit ${type}`;
-      modal.querySelector(".modal-submit").textContent = "Edit";
+      modal.querySelector('.modal-title').textContent = `Edit ${type}`;
+      modal.querySelector('.modal-submit').textContent = 'Edit';
     }
   },
 
   closeModals() {
     dom.modals.forEach((item) => {
-      item.style.display = "none";
+      item.style.display = 'none';
       setTimeout(() => {
-        item.querySelector(".modal-content").style.transform = "scale(0)";
+        item.querySelector('.modal-content').style.transform = 'scale(0)';
       }, 50);
     });
 
@@ -176,10 +176,10 @@ export default {
 
   toggleDropdown(element) {
     element.style.display =
-      element.style.display === "block" ? "none" : "block";
+      element.style.display === 'block' ? 'none' : 'block';
   },
 
   hideElement(element) {
-    element.style.display = "none";
+    element.style.display = 'none';
   },
 };

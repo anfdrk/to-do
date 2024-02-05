@@ -1,108 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To Do</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="favicon.png">
-  <script src="main.js" defer></script>
-</head>
-
-<body>
-  <main class="main">
-    <nav class="nav">
-      <div class="project-list">
-        <button class="nav-item" data-project-id="inbox">
-          <img src="images/inbox.svg">
-          Inbox
-        </button>
-        <button class="nav-item" data-project-id="today">
-          <img src="images/today.svg">
-          Today
-        </button>
-        <button class="nav-item" data-project-id="upcoming">
-          <img src="images/calendar.svg">
-          Upcoming
-        </button>
-        <button class="nav-item" data-project-id="important">
-          <img src="images/star-filled.svg">
-          Important
-        </button>
-      </div>
-      <div class="projects-title">
-        <div>
-          <img src="images/pack.svg">
-          <span>Projects</span>
-        </div>
-        <button id="add-project-btn" class="icon-btn">
-          <img src="images/add.svg">
-        </button>
-      </div>
-      <div class="project-list" id="user-projects"></div>
-    </nav>
-
-    <div class="project-view">
-      <div class="project-view-header">
-        <h1 id="project-view-title"></h1>
-        <div class="options-wrap">
-          <button id="project-options-btn" class="icon-btn">
-            <img src="images/more.svg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="favicon.png" />
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <main class="main">
+      <nav class="nav">
+        <div class="project-list">
+          <button class="nav-item" data-project-id="inbox">
+            <img src="images/inbox.svg" />
+            Inbox
           </button>
-          <div id="project-options" class="project-options">
-            <ul>
-              <li id="rename-option">
-                <img src="images/edit.svg">
-                Rename
-              </li>
-              <li id="delete-option">
-                <img src="images/delete.svg">
-                Delete
-              </li>
-            </ul>
+          <button class="nav-item" data-project-id="today">
+            <img src="images/today.svg" />
+            Today
+          </button>
+          <button class="nav-item" data-project-id="upcoming">
+            <img src="images/calendar.svg" />
+            Upcoming
+          </button>
+          <button class="nav-item" data-project-id="important">
+            <img src="images/star-filled.svg" />
+            Important
+          </button>
+        </div>
+        <div class="projects-title">
+          <div>
+            <img src="images/pack.svg" />
+            <span>Projects</span>
+          </div>
+          <button id="add-project-btn" class="icon-btn">
+            <img src="images/add.svg" />
+          </button>
+        </div>
+        <div class="project-list" id="user-projects"></div>
+      </nav>
+
+      <div class="project-view">
+        <div class="project-view-header">
+          <h1 id="project-view-title"></h1>
+          <div class="options-wrap">
+            <button id="project-options-btn" class="icon-btn">
+              <img src="images/more.svg" />
+            </button>
+            <div id="project-options" class="project-options">
+              <ul>
+                <li id="rename-option">
+                  <img src="images/edit.svg" />
+                  Rename
+                </li>
+                <li id="delete-option">
+                  <img src="images/delete.svg" />
+                  Delete
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="task-list"></div>
-      <button class="add-task-btn" id="add-task-btn">
-        <img src="images/add.svg">
-        <span>Add task</span>
-      </button>
-    </div>
-  </main>
-
-  <div id="project-modal" class="modal">
-    <div class="modal-content">
-      <h3 class="modal-title"></h3>
-      <form class="modal-form" id="project-form" name="project-form" method="post">
-        <input type="text" id="form-project-title" placeholder="Title">
-        <div>
-          <button type="button" class="modal-cancel modal-btn">Cancel</button>
-          <button type="submit" class="modal-submit modal-btn"></button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="task-modal" class="modal">
-    <div class="modal-content">
-      <h3 class="modal-title"></h3>
-      <form class="modal-form" id="task-form" name="task-form" method="post">
-        <input type="text" id="form-task-title" placeholder="Title" name="task-title">
-        <textarea name="task-description" id="form-task-description" rows="3" placeholder="Description"></textarea>
-        <input type="date" id="form-task-date" name="task-date" class="date-input">
-        <button type="button" id="task-delete-btn" class="task-delete-btn">
-          <img src="images/delete.svg">
-          Delete
+        <div id="task-list"></div>
+        <button class="add-task-btn" id="add-task-btn">
+          <img src="images/add.svg" />
+          <span>Add task</span>
         </button>
-        <div>
-          <button type="button" class="modal-cancel modal-btn">Cancel</button>
-          <button type="submit" class="modal-submit modal-btn" id="task-submit"></button>
-        </div>
-      </form>
-    </div>
-  </div>
-</body>
+      </div>
+    </main>
 
+    <div id="project-modal" class="modal">
+      <div class="modal-content">
+        <h3 class="modal-title"></h3>
+        <form
+          class="modal-form"
+          id="project-form"
+          name="project-form"
+          method="post"
+        >
+          <input type="text" id="form-project-title" placeholder="Title" />
+          <div>
+            <button type="button" class="modal-cancel modal-btn">Cancel</button>
+            <button type="submit" class="modal-submit modal-btn"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="task-modal" class="modal">
+      <div class="modal-content">
+        <h3 class="modal-title"></h3>
+        <form class="modal-form" id="task-form" name="task-form" method="post">
+          <input
+            type="text"
+            id="form-task-title"
+            placeholder="Title"
+            name="task-title"
+          />
+          <textarea
+            name="task-description"
+            id="form-task-description"
+            rows="3"
+            placeholder="Description"
+          ></textarea>
+          <input
+            type="date"
+            id="form-task-date"
+            name="task-date"
+            class="date-input"
+          />
+          <button type="button" id="task-delete-btn" class="task-delete-btn">
+            <img src="images/delete.svg" />
+            Delete
+          </button>
+          <div>
+            <button type="button" class="modal-cancel modal-btn">Cancel</button>
+            <button
+              type="submit"
+              class="modal-submit modal-btn"
+              id="task-submit"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
