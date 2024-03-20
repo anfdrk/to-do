@@ -5,6 +5,13 @@
   padding: 0;
   margin: 0;
 }
+html {
+  font-size: 18px;
+}
+body {
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
 button,
 input,
 textarea {
@@ -17,9 +24,6 @@ textarea {
   outline: none;
   border-radius: 5px;
   background-color: transparent;
-}
-body {
-  height: 100vh;
 }
 .main {
   display: flex;
@@ -144,7 +148,6 @@ body {
 }
 .task-title {
   margin-right: 15px;
-  min-width: 150px;
 }
 .task-title.completed {
   text-decoration: line-through;
@@ -196,7 +199,7 @@ body {
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 input,
 textarea {
@@ -205,6 +208,7 @@ textarea {
   cursor: text;
   background-color: #ffffff;
   resize: none;
+  margin: 0.5rem 0;
 }
 input:focus,
 textarea:focus {
@@ -295,4 +299,22 @@ textarea::placeholder,
 }
 .task-delete-btn:hover {
   outline-color: #e54e1e;
+}
+input:invalid {
+  outline: #ea714b 4px solid;
+  outline-offset: -2px;
+}
+input:focus:invalid {
+  outline: #87bffc 4px solid;
+  outline-offset: -2px;
+}
+.error-message {
+  display: none;
+  padding: 0 0.3rem 0.5rem;
+  color: #e54e1e;
+  font-size: 0.8rem;
+  background-color: transparent;
+}
+.error-message.active {
+  display: block;
 }

@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To Do</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" href="favicon.png" />
     <script src="main.js" defer></script>
   </head>
@@ -78,8 +84,18 @@
           id="project-form"
           name="project-form"
           method="post"
+          novalidate
         >
-          <input type="text" id="form-project-title" placeholder="Title" />
+          <input
+            type="text"
+            id="form-project-title"
+            placeholder="Title"
+            maxlength="35"
+            required
+          />
+          <span id="project-error" class="error-message"
+            >There's something you forgot to add</span
+          >
           <div>
             <button type="button" class="modal-cancel modal-btn">Cancel</button>
             <button type="submit" class="modal-submit modal-btn"></button>
@@ -91,18 +107,30 @@
     <div id="task-modal" class="modal">
       <div class="modal-content">
         <h3 class="modal-title"></h3>
-        <form class="modal-form" id="task-form" name="task-form" method="post">
+        <form
+          class="modal-form"
+          id="task-form"
+          name="task-form"
+          method="post"
+          novalidate
+        >
           <input
             type="text"
             id="form-task-title"
             placeholder="Title"
             name="task-title"
+            maxlength="65"
+            required
           />
+          <span id="task-error" class="error-message"
+            >There's something you forgot to add</span
+          >
           <textarea
             name="task-description"
             id="form-task-description"
-            rows="3"
+            rows="5"
             placeholder="Description"
+            maxlength="1000"
           ></textarea>
           <input
             type="date"

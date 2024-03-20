@@ -10,6 +10,8 @@ export default {
   formTaskDescription: document.getElementById('form-task-description'),
   formTaskDate: document.getElementById('form-task-date'),
   deleteTaskBtn: document.getElementById('task-delete-btn'),
+  taskError: document.getElementById('task-error'),
+  projectError: document.getElementById('project-error'),
   modals: document.querySelectorAll('.modal'),
   cancelButtons: document.querySelectorAll('.modal-cancel'),
   addProjectBtn: document.getElementById('add-project-btn'),
@@ -257,6 +259,16 @@ export default {
     this.formTaskDate.addEventListener('blur', () =>
       handlers.changeDateFormColor(),
     );
+
+    this.formTaskTitle.addEventListener('focus', () => {
+      this.taskError.classList.remove('active');
+      this.formTaskTitle.setCustomValidity('');
+    });
+
+    this.formProjectTitle.addEventListener('input', () => {
+      this.projectError.classList.remove('active');
+      this.formProjectTitle.setCustomValidity('');
+    });
   },
 
   initDropdownHandlers() {

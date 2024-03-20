@@ -57,9 +57,12 @@ export default {
 
   editTask(event, taskId) {
     event.preventDefault();
-    const title = dom.formTaskTitle.value;
+    const title = dom.formTaskTitle.value.trim();
     const description = dom.formTaskDescription.value.trim();
     const dueDate = dom.formTaskDate.value;
+    if (!this.validateInput(dom.formTaskTitle, dom.taskError)) {
+      return;
+    }
     app.editTask(taskId, title, description, dueDate);
     this.closeModals();
     app.setActiveProject(app.activeProject.id);
@@ -81,12 +84,26 @@ export default {
 
   addTask(event) {
     event.preventDefault();
-    const title = dom.formTaskTitle.value;
+    const title = dom.formTaskTitle.value.trim();
     const description = dom.formTaskDescription.value.trim();
     const dueDate = dom.formTaskDate.value;
+    if (!this.validateInput(dom.formTaskTitle, dom.taskError)) {
+      return;
+    }
     app.addTaskToProject(title, description, dueDate);
     this.closeModals();
     dom.renderTasks();
+  },
+
+  validateInput(inputElement, errorMessageElement) {
+    const value = inputElement.value.trim();
+    if (!value || !inputElement.checkValidity()) {
+      inputElement.setCustomValidity(' ');
+      inputElement.value = '';
+      errorMessageElement.classList.add('active');
+      return false;
+    }
+    return true;
   },
 
   deleteTask(taskId, projectId) {
@@ -115,7 +132,10 @@ export default {
 
   addProject(event) {
     event.preventDefault();
-    app.addProject(dom.formProjectTitle.value);
+    if (!this.validateInput(dom.formProjectTitle, dom.projectError)) {
+      return;
+    }
+    app.addProject(dom.formProjectTitle.value.trim());
     this.closeModals();
     dom.renderProjects();
     const newProject = app.projects[app.projects.length - 1];
@@ -133,7 +153,10 @@ export default {
 
   editProject(event) {
     event.preventDefault();
-    app.editProject(dom.formProjectTitle.value);
+    if (!this.validateInput(dom.formProjectTitle, dom.projectError)) {
+      return;
+    }
+    app.editProject(dom.formProjectTitle.value.trim());
     this.closeModals();
     dom.renderProjects();
     dom.highlightActiveProject();
